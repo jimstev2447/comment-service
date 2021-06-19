@@ -1,4 +1,4 @@
 db/database
 node_modules
-.env
+.env.*
 dist
