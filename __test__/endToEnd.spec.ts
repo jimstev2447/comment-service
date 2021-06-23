@@ -1,6 +1,6 @@
 process.env.NODE_ENV = 'test';
 import supertest from 'supertest';
-import { app } from '../src';
+import { app } from '../src/app';
 import { expect } from 'chai';
 import connection from '../db/connection';
 
