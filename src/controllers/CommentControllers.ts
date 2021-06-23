@@ -2,12 +2,11 @@ import { CommentInfo } from '../Comment';
 import { Id } from '../Id';
 import { UseCases } from '../useCases';
 
-interface CommentBody {
+interface PostCommentResponseBody {
   comment: CommentInfo;
 }
-
 interface PostsComment {
-  getPostComment: () => Controller<CommentBody>;
+  getPostComment: () => Controller<PostCommentResponseBody>;
 }
 export type HTTPRequest = {
   body: { [key: string]: any };
@@ -22,13 +21,12 @@ export type HTTPRequest = {
     'User-Agent': string | undefined;
   };
 };
-export interface Controller<T> {
-  (r: HTTPRequest): Promise<{ statusCode: number; body: T }>;
-}
+export type Controller<T> = (
+  r: HTTPRequest
+) => Promise<{ statusCode: number; body: T }>;
+
 export class CommentControllers implements PostsComment {
-  private useCases: {
-    addComment: (c: CommentInfo, Id: Id) => Promise<CommentInfo>;
-  };
+  private useCases: UseCases;
   constructor() {
     this.useCases = new UseCases();
   }

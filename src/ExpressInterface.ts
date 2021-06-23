@@ -1,13 +1,13 @@
-import e from 'express';
+import { RequestHandler } from 'express';
 import { Controller, HTTPRequest } from './controllers/CommentControllers';
 
 interface ReturnsController {
-  returnController<T>(controller: Controller<T>): e.RequestHandler<{}, T>;
+  returnController<T>(controller: Controller<T>): RequestHandler<{}, T>;
 }
 
 export class ExpressImplementation implements ReturnsController {
   constructor() {}
-  returnController<T>(controller: Controller<T>): e.RequestHandler<{}, T> {
+  returnController<T>(controller: Controller<T>): RequestHandler<{}, T> {
     return async (req, res) => {
       const request: HTTPRequest = {
         body: req.body,
