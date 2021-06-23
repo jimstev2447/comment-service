@@ -6,7 +6,7 @@ import connection from '../db/connection';
 
 afterEach(() => {
   return connection.connect().then(() => {
-    connection.getDb().collection('comments').drop();
+    return connection.getDb().collection('comments').drop();
   });
 });
 after(() => {
