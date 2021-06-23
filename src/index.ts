@@ -2,6 +2,7 @@ import express from 'express';
 import { Comment } from './Comment';
 import { Id } from './Id';
 import connection from '../db/connection';
+import { CommentDb } from './data-access/CommentDb';
 
 const app = express();
 app.use(express.json());
@@ -18,10 +19,9 @@ app.post('/api/comments', async (req, res) => {
     },
     id
   );
-
-  await connection.connect();
-  const commentDb = await connection.getDb().collection('comments');
-  const result = await commentDb.insertOne(comment);
-  res.status(201).send({ comment: result.ops[0] });
+  const cDB = new CommentDb(connection);
+  const insertedComment = await cDB.insert(comment);
+  console.log(insertedComment instanceof Comment);
+  res.status(201).send({ comment: insertedComment });
 });
 export { app };
