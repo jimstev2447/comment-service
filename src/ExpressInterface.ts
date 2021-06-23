@@ -1,26 +1,13 @@
 import e from 'express';
+import { Controller, HTTPRequest } from './controllers/CommentControllers';
 
-export type HTTPRequest = {
-  body: { [key: string]: any };
-  query: {};
-  params: {};
-  ip: string;
-  method: string;
-  path: string;
-  headers: {
-    'Content-Type': string | undefined;
-    Referer: string | undefined;
-    'User-Agent': string | undefined;
-  };
-};
+interface ReturnsController {
+  returnController<T>(controller: Controller<T>): e.RequestHandler<{}, T>;
+}
 
-export type Controller<T> = {
-  (r: HTTPRequest): Promise<{ statusCode: number; body: T }>;
-};
-
-export class ExpressImplementation {
+export class ExpressImplementation implements ReturnsController {
   constructor() {}
-  returnController<T>(controller: Controller<T>): e.RequestHandler {
+  returnController<T>(controller: Controller<T>): e.RequestHandler<{}, T> {
     return async (req, res) => {
       const request: HTTPRequest = {
         body: req.body,

@@ -1,16 +1,16 @@
 import { CommentDb } from '../data-access/CommentDb';
 import { Comment, CommentInfo } from '../Comment';
-import { Id_interface } from '../Id';
+import { Id } from '../Id';
 
 interface addsComment {
-  addComment: (c: CommentInfo, Id: Id_interface) => Promise<CommentInfo>;
+  addComment: (c: CommentInfo, Id: Id) => Promise<CommentInfo>;
 }
 export class UseCases implements addsComment {
   private commentDb: CommentDb;
   constructor() {
     this.commentDb = new CommentDb();
   }
-  addComment(commentInfo: CommentInfo, id: Id_interface) {
+  addComment(commentInfo: CommentInfo, id: Id) {
     const comment = new Comment(commentInfo, id);
     return this.commentDb.insert(comment.getComment());
   }
