@@ -21,7 +21,6 @@ app.post('/api/comments', async (req, res) => {
   );
   const cDB = new CommentDb(connection);
   const insertedComment = await cDB.insert(comment);
-  console.log(insertedComment instanceof Comment);
-  res.status(201).send({ comment: insertedComment });
+  res.status(201).send({ comment: insertedComment.getComment() });
 });
 export { app };
