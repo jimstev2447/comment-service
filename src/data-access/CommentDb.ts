@@ -1,20 +1,18 @@
-import { Comment, CommentInfo } from '../Comment';
-import { Id } from '../Id';
+import connection from '../../db/connection';
+import { CommentInfo } from '../Comment';
 import { Database } from './Database';
 
 export class CommentDb {
   private connection: Database;
-  constructor(connection: Database) {
+  constructor() {
     this.connection = connection;
   }
-  async insert(comment: Comment): Promise<Comment> {
+  async insert({ id, ...comment }: CommentInfo): Promise<CommentInfo> {
     await this.connection.connect();
-    const commentDb = await this.connection
-      .getDb()
-      .collection<CommentInfo>('comments');
+    const commentDb = await this.connection.getDb().collection('comments');
     const insertedComment = await (
-      await commentDb.insertOne({ ...comment.getComment() })
+      await commentDb.insertOne({ _id: id, ...comment })
     ).ops[0];
-    return new Comment(insertedComment, new Id());
+    return { ...insertedComment, id: insertedComment._id };
   }
 }
