@@ -1,9 +1,7 @@
 import cuid from 'cuid';
-export interface Id_interface {
-  makeId: () => string;
-  isValidId: (s: string) => boolean;
-}
-export class Id implements Id_interface {
+import { Id_spec } from './Comment';
+
+export class Id implements Id_spec {
   makeId() {
     return cuid();
   }

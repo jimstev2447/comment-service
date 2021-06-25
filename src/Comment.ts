@@ -1,11 +1,14 @@
-import { Id_interface } from './Id';
-
 export interface CommentInfo {
   author: string;
   text: string;
   createdOn?: number;
   postId: string;
   id?: string;
+}
+
+export interface Id_spec {
+  makeId: () => string;
+  isValidId: (s: string) => boolean;
 }
 
 export class Comment {
@@ -16,7 +19,7 @@ export class Comment {
   private id: string;
   constructor(
     { author, text, createdOn = Date.now(), postId, id }: CommentInfo,
-    Id: Id_interface
+    Id: Id_spec
   ) {
     this.author = author;
     this.text = text;
